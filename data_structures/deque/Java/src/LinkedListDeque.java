@@ -47,7 +47,7 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
     }
 
 
-    // public API methods
+    // public API
 
     @Override
     public int size() {
@@ -56,18 +56,12 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
 
     @Override
     public void addFirst(T value) {
-        Link<T> newLink = new Link<>(value, sentinel, sentinel.next);
-        sentinel.next = newLink;
-        newLink.next.last = newLink;
-        size++;
+        addLinkBetween(sentinel, sentinel.next, value);
     }
 
     @Override
     public void addLast(T value) {
-        Link<T> newLink = new Link<>(value, sentinel.last, sentinel);
-        sentinel.last = newLink;
-        newLink.last.next = newLink;
-        size++;
+        addLinkBetween(sentinel.last, sentinel, value);
     }
 
     @Override
@@ -75,11 +69,7 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
         if (size == 0) {
             return null;
         }
-        Link<T> removeLink = sentinel.next;
-        sentinel.next = removeLink.next;
-        removeLink.next.last = sentinel;
-        size--;
-        return removeLink.value;
+        return removeLinkAt(sentinel.next);
     }
 
     @Override
@@ -87,11 +77,7 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
         if (size == 0) {
             return null;
         }
-        Link<T> removeLink = sentinel.last;
-        sentinel.last = removeLink.last;
-        removeLink.last.next = sentinel;
-        size--;
-        return removeLink.value;
+        return removeLinkAt(sentinel.last);
     }
 
     @Override
@@ -123,7 +109,7 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
     }
 
 
-    // additional methods
+    // additional API
 
     @SafeVarargs
     public static <T> LinkedListDeque<T> of(T... args) {
@@ -134,6 +120,11 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
         return queue;
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return new ListIterator<>(sentinel);
+    }
+
     public T getRecursive(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(String.format("called with index %d on size %d", index, size));
@@ -141,16 +132,27 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
         return getRecursiveBody(sentinel.next, index);
     }
 
+
+    // private methods
+
+    private void addLinkBetween(Link<T> pred, Link<T> succ, T value) {
+        Link<T> newLink = new Link<>(value, pred, succ);
+        pred.next = succ.last = newLink;
+        size++;
+    }
+
+    private T removeLinkAt(Link<T> oldLink) {
+        oldLink.last.next = oldLink.next;
+        oldLink.next.last = oldLink.last;
+        size--;
+        return oldLink.value;
+    }
+
     private T getRecursiveBody(Link<T> link, int i) {
         if (i == 0) {
             return link.value;
         }
         return getRecursiveBody(link.next, --i);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return new ListIterator<>(sentinel);
     }
 
 }
