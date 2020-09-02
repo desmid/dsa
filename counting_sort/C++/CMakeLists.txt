@@ -9,8 +9,8 @@ if (CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 # project-general includes
-include_directories(SYSTEM ../../../etc/include)
-message(STATUS "Add system include path: ../../../etc/include")
+include_directories(SYSTEM ../../etc/include)
+message(STATUS "Add system include path: ../../etc/include")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wpedantic")
 

@@ -8,11 +8,11 @@
     <artifactId>parent-project</artifactId>
     <groupId>none</groupId>
     <version>1.0</version>
-    <relativePath>../../../etc/java/pom.xml</relativePath>
+    <relativePath>../../etc/java/pom.xml</relativePath>
   </parent>
 
   <groupId>none</groupId>
-  <artifactId>linear_sorts</artifactId>
+  <artifactId>deque</artifactId>
   <version>1.0</version>
 
 </project>
