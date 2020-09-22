@@ -4,7 +4,7 @@ Counting sort is a stable linear sort.
 
 Assumptions
 
-- keys are integers that can be mapped into some narrow interval `[0, k]`.
+- keys are integers that can be mapped into some narrow interval `[1, k]`.
 
 - any range of integers, including negative numbers, can be mapped via a
   function `key(x) -> [1, k]` (equivalently `[0, k-1]`)
